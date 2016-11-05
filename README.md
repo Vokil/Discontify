@@ -3,16 +3,16 @@
 Web based SPA application about discount cards
 
 #Used technologies#
-**Front-end**
+**Front-end** <br />
   1) Angular 2 <br />
   2) SCSS <br />
-  3) Bootstrap 
+  3) Bootstrap <br />
 
-**Back-end**
-  1) .NET Core
+**Back-end** <br />
+  1) .NET Core <br />
   2) ASP.NET Core.NET Core <br />
   3) Entity Framework 1.0 Core <br />
-  4) Mongo Driver for C#
+  4) Mongo Driver for C# <br />
 
-**Database**
-  1) MongoDb
+**Database** <br />
+  1) MongoDb 
