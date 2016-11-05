@@ -6,7 +6,9 @@ Used technologies:
 
 **Front-end**
 Angular 2
+
 SCSS
+
 Bootstrap
 
 **Back-end**
