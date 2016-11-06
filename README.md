@@ -1,6 +1,6 @@
 # Discountify
 
-Web based SPA application about discount cards
+Web based SPA application which is usefull for managing discount cards from diffrent companies.
 
 #Used technologies#
 **Front-end** <br />
