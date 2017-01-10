@@ -1,6 +1,9 @@
 {
   "dependencies": {
-    "Microsoft.NETCore.App": "1.1.0",
+    "Microsoft.NETCore.App": {
+      "version": "1.1.0",
+      "type": "platform"
+    },
     "Discountify.Composition": "1.0.0-*",
     "Discountify.Data": "1.0.0-*",
     "Discountify.Models": "1.0.0-*",
