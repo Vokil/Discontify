@@ -50,18 +50,17 @@ namespace Discountify.Api
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseApplicationInsightsRequestTelemetry();
 
             app.UseApplicationInsightsExceptionTelemetry();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                        name: "default",
-                        template: "{controller}/{action}/{id?}",
-                        defaults: new { controller = "Home", action = "Index" }
-                    );
-            });
+            app.UseStatusCodePages();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
