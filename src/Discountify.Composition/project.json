@@ -3,8 +3,11 @@
 
   "dependencies": {
     "NETStandard.Library": "1.6.0",
-    "SimpleInjector.Integration.AspNetCore": "3.3.0",
-    "SimpleInjector.Integration.AspNetCore.Mvc": "3.3.0"
+    "Microsoft.Extensions.DependencyInjection": "1.1.0",
+    "Microsoft.Extensions.Configuration.Abstractions": "1.1.0",
+    "Discountify.Services": "1.0.0-*",
+    "Discountify.Models": "1.0.0-*",
+    "Discountify.Data": "1.0.0-*"
   },
 
   "frameworks": {

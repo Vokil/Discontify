@@ -9,6 +9,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Discountify.Services.Contracts;
 using Discountify.Services;
+using Discountify.Data;
+using Microsoft.EntityFrameworkCore;
+using Discountify.Composition;
 
 namespace Discountify.Api
 {
@@ -36,12 +39,12 @@ namespace Discountify.Api
         // This method gets called by the runtime. Use this method to add services to the container
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<ICardService, CardService>();
-
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
+
+            DependencyInjectionConfig.Initialize(services, this.Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline

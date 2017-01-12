@@ -7,7 +7,7 @@
 
   <Import Project="$(VSToolsPath)\DotNet\Microsoft.DotNet.Props" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup Label="Globals">
-    <ProjectGuid>5eb4ef48-f524-4038-8195-c51ce4447a5a</ProjectGuid>
+    <ProjectGuid>b4c77d92-1dbd-43d7-ac54-083acdb78a2f</ProjectGuid>
     <RootNamespace>Discountify.Composition</RootNamespace>
     <BaseIntermediateOutputPath Condition="'$(BaseIntermediateOutputPath)'=='' ">.\obj</BaseIntermediateOutputPath>
     <OutputPath Condition="'$(OutputPath)'=='' ">.\bin\</OutputPath>

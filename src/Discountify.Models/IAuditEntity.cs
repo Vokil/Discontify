@@ -11,7 +11,5 @@
         DateTime LastModifiedAt { get; set; }
 
         string LastModifiedBy { get; set; }
-
-        bool IsDeleted { get; set; }
     }
 }
