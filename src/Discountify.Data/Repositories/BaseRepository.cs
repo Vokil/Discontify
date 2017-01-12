@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Discountify.Data.Repositories
 {
     public abstract class BaseRepository<TEntity> : IRepository<TEntity>
-        where TEntity: BaseEntity
+        where TEntity: BaseEntity, IDeletable
     {
         private readonly IDiscountifyContext discountifyContext;
 

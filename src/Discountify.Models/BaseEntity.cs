@@ -2,7 +2,7 @@
 {
     using System;
 
-    public abstract class BaseEntity
+    public abstract class BaseEntity : IDeletable
     {
         protected BaseEntity()
         {
