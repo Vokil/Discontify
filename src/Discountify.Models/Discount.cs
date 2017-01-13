@@ -8,6 +8,10 @@
 
         public decimal Value { get; set; }
 
-        public virtual string  CardId { get; set; }
+        public string Type { get; set; }
+
+        public virtual Card Card { get; set; }
+
+        public virtual Venue Venue { get; set; }
     }
 }

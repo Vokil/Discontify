@@ -24,11 +24,7 @@
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            return Ok(new Card
-            {
-                AccountId = "dsa",
-                IsDeleted = false
-            });
+            return Ok();
         }
 
         [HttpPost]

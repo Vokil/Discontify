@@ -4,9 +4,7 @@
 
     public abstract class BaseAuditedEntity : BaseEntity, IAuditEntity
     {
-        protected BaseAuditedEntity()
-        {
-        }
+        protected BaseAuditedEntity() { }
 
         public DateTime CreatedAt { get; set; }
 
