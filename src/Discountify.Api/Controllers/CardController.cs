@@ -22,9 +22,13 @@
         }
 
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            return Ok(new Card
+            {
+                AccountId = "dsa",
+                IsDeleted = false
+            });
         }
 
         [HttpPost]

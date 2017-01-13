@@ -1,24 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Discountify.Services.Contracts;
-using Discountify.Services;
-using Discountify.Data;
-using Microsoft.EntityFrameworkCore;
-using Discountify.Composition;
-
-namespace Discountify.Api
+﻿namespace Discountify.Api
 {
+    using Composition;
+    using Data;
+    using Microsoft.AspNetCore.Authentication.Cookies;
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
+    using Models;
+    using System.Threading.Tasks;
+
     public class Startup
     {
+        private readonly IHostingEnvironment environment;
+
         public Startup(IHostingEnvironment env)
         {
+            this.environment = env;
+
             var builder = new ConfigurationBuilder()
                 .SetBasePath(env.ContentRootPath)
                 .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
@@ -42,7 +44,30 @@ namespace Discountify.Api
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
-            services.AddMvc();
+            services.AddMvc(config => 
+            {
+                if (this.environment.IsProduction())
+                {
+                    config.Filters.Add(new RequireHttpsAttribute());
+                }
+            });
+
+            services.AddIdentity<User, IdentityRole>(config => 
+            {
+                config.User.RequireUniqueEmail = true;
+                config.Password.RequiredLength = 6;
+                config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
+                config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = async ctx => 
+                    {
+                        ctx.Response.StatusCode = 401;
+
+                        await Task.Yield();
+                    }
+                };
+            })
+            .AddEntityFrameworkStores<DiscountifyContext>();
 
             DependencyInjectionConfig.Initialize(services, this.Configuration);
         }
@@ -59,8 +84,9 @@ namespace Discountify.Api
             }
 
             app.UseApplicationInsightsRequestTelemetry();
-
             app.UseApplicationInsightsExceptionTelemetry();
+
+            app.UseIdentity();
 
             app.UseStatusCodePages();
             app.UseMvcWithDefaultRoute();
