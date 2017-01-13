@@ -2,6 +2,7 @@
 {
     using Discountify.Data.Repositories.Contracts;
     using Discountify.Models;
+    using System;
     using System.Collections.Generic;
     using System.Linq;
 
@@ -14,6 +15,16 @@
         {
             var cardsCollection = this
                 .Collection
+                .ToArray();
+
+            return cardsCollection;
+        }
+
+        public ICollection<Card> List(Guid userId)
+        {
+            var cardsCollection = this
+                .Collection
+                .Where(cards => cards.User.Id.Equals(userId))
                 .ToArray();
 
             return cardsCollection;

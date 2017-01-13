@@ -1,4 +1,5 @@
 ﻿using Discountify.Models;
+using EnsureThat;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -14,17 +15,9 @@ namespace Discountify.Data.Repositories
 
         public BaseRepository(IDiscountifyContext discountifyContext)
         {
+            EnsureArg.IsNotNull(discountifyContext, "discountifyContext");
+
             this.discountifyContext = discountifyContext;
-        }
-
-        public TEntity Create(TEntity entity)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void Delete(TEntity entity)
-        {
-            throw new NotImplementedException();
         }
 
         public TEntity Get(object id)
@@ -32,7 +25,21 @@ namespace Discountify.Data.Repositories
             throw new NotImplementedException();
         }
 
+        public TEntity Create(TEntity entity)
+        {
+            EnsureArg.IsNotNull(entity, "entity");
+
+            return this.discountifyContext.Add(entity).Entity;
+        }
+
         public void Update(TEntity entity)
+        {
+            EnsureArg.IsNotNull(entity, "entity");
+
+            this.discountifyContext.Attach(entity);
+        }
+
+        public void Delete(TEntity entity)
         {
             throw new NotImplementedException();
         }
