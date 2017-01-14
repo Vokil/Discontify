@@ -1,13 +1,11 @@
-﻿using Discountify.Models;
-using EnsureThat;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Discountify.Data.Repositories
+﻿namespace Discountify.Data.Repositories
 {
+    using Discountify.Models;
+    using EnsureThat;
+    using Microsoft.EntityFrameworkCore;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public abstract class BaseRepository<TEntity> : IRepository<TEntity>
         where TEntity: BaseEntity, IDeletable
     {
@@ -22,7 +20,9 @@ namespace Discountify.Data.Repositories
 
         public TEntity Get(object id)
         {
-            throw new NotImplementedException();
+            EnsureArg.IsNotNull(id, "id");
+
+            return this.discountifyContext.Find<TEntity>(id);
         }
 
         public TEntity Create(TEntity entity)
@@ -32,16 +32,42 @@ namespace Discountify.Data.Repositories
             return this.discountifyContext.Add(entity).Entity;
         }
 
+        public void CreateRange(IEnumerable<TEntity> entities)
+        {
+            EnsureArg.IsNotNull(entities, "entities");
+            EnsureArg.HasItems<TEntity>(entities.ToArray(), "entities");
+
+            this.discountifyContext.AddRange(entities);
+        }
+
         public void Update(TEntity entity)
         {
             EnsureArg.IsNotNull(entity, "entity");
 
-            this.discountifyContext.Attach(entity);
+            this.discountifyContext.Update(entity);
+        }
+
+        public void UpdateRange(IEnumerable<TEntity> entities)
+        {
+            EnsureArg.IsNotNull(entities, "entities");
+            EnsureArg.HasItems<TEntity>(entities.ToArray(), "entities");
+
+            this.discountifyContext.UpdateRange(entities);
         }
 
         public void Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            EnsureArg.IsNotNull(entity, "entity");
+
+            this.discountifyContext.Remove(entity);
+        }
+
+        public void DeleteRange(IEnumerable<TEntity> entities)
+        {
+            EnsureArg.IsNotNull(entities, "entities");
+            EnsureArg.HasItems<TEntity>(entities.ToArray(), "entities");
+
+            this.discountifyContext.RemoveRange(entities);
         }
 
         protected IQueryable<TEntity> Collection
