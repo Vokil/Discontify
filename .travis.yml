@@ -12,5 +12,5 @@ matrix:
 
 script:
   - dotnet restore
-  - cd src/WebApi/
+  - cd src/Discountify.Api/
   - dotnet build
