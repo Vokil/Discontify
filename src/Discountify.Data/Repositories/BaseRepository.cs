@@ -106,6 +106,18 @@
             }
         }
 
+        /// <summary>
+        /// This propety uses AsNoTracking method of EF Core which is developed to provide optimized
+        /// performance when there are only Get (Read) queries without any modifications.
+        /// </summary>
+        protected IQueryable<TEntity> CollectionAsNoTracking
+        {
+            get
+            {
+                return this.DbSet.AsNoTracking().Where(x => !x.IsDeleted);
+            }
+        }
+
         private DbSet<TEntity> DbSet
         {
             get

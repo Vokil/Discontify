@@ -14,7 +14,7 @@
         public ICollection<Card> List()
         {
             var cardsCollection = this
-                .Collection
+                .CollectionAsNoTracking
                 .ToArray();
 
             return cardsCollection;
@@ -23,7 +23,7 @@
         public ICollection<Card> List(Guid userId)
         {
             var cardsCollection = this
-                .Collection
+                .CollectionAsNoTracking
                 .Where(cards => cards.User.Id.Equals(userId))
                 .ToArray();
 
