@@ -18,14 +18,25 @@
 
         public IAuditProvider AuditProvider { get; set; }
 
+        public DbSet<Address> Addresses { get; set; }
+
         public DbSet<Card> Cards { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<Country> Countries { get; set; }
 
         public DbSet<Discount> Discounts { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            base.OnConfiguring(optionsBuilder);
-        }
+        public DbSet<District> Districts { get; set; }
+
+        public DbSet<Geolocation> Geolocations { get; set; }
+
+        public DbSet<IndustryClassification> IndustryClassifications { get; set; }
+
+        public DbSet<Province> Provinces { get; set; }
+
+        public DbSet<Venue> Venues { get; set; }
 
         public override int SaveChanges()
         {
