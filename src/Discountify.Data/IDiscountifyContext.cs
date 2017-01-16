@@ -3,6 +3,8 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.ChangeTracking;
     using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
 
     public interface IDiscountifyContext
     {
@@ -27,5 +29,7 @@
         EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 
         int SaveChanges();
+
+        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken));
     }
 }

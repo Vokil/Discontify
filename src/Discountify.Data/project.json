@@ -2,13 +2,15 @@
   "version": "1.0.0-*",
 
   "dependencies": {
+    "Discountify.Core": "1.0.0-*",
     "Discountify.Models": "1.0.0-*",
     "Ensure.That": "5.0.0",
     "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "1.0.0",
     "Microsoft.EntityFrameworkCore": "1.1.0",
     "Microsoft.EntityFrameworkCore.SqlServer": "1.1.0",
     "Microsoft.EntityFrameworkCore.Tools": "1.1.0-preview4-final",
-    "NETStandard.Library": "1.6.1"
+    "NETStandard.Library": "1.6.1",
+    "System.Threading.Tasks": "4.3.0"
   },
 
   "frameworks": {

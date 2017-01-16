@@ -5,9 +5,10 @@
     using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     public abstract class BaseRepository<TEntity> : IRepository<TEntity>
-        where TEntity: BaseEntity, IDeletable
+        where TEntity : BaseEntity, IDeletable
     {
         private readonly IDiscountifyContext discountifyContext;
 
@@ -22,7 +23,9 @@
         {
             EnsureArg.IsNotNull(id, "id");
 
-            return this.discountifyContext.Find<TEntity>(id);
+            var entity = this.discountifyContext.Find<TEntity>(id);
+
+            return entity != null && !entity.IsDeleted ? entity : null;
         }
 
         public TEntity Create(TEntity entity)
@@ -70,7 +73,6 @@
             this.discountifyContext.RemoveRange(entities);
         }
 
-
         /// <summary>
         /// Delete optimized works faster than usual Delete method.
         /// The usage should be as followed: 
@@ -84,6 +86,16 @@
             EnsureArg.IsNotNull(entity, "entity");
 
             this.discountifyContext.Entry(entity).State = EntityState.Deleted;
+        }
+
+        public int Save()
+        {
+            return this.discountifyContext.SaveChanges();
+        }
+
+        public async Task<int> SaveAsync()
+        {
+            return await this.discountifyContext.SaveChangesAsync();
         }
 
         protected IQueryable<TEntity> Collection

@@ -1,5 +1,6 @@
 ﻿namespace Discountify.Composition
 {
+    using Core.Audit;
     using Data;
     using Data.Repositories;
     using Data.Repositories.Contracts;
@@ -14,30 +15,43 @@
         private const string DISCOUNTIFY_CONNECTION_NAME = "DiscountifyContextConnection";
         private static IConfigurationRoot config;
 
-        public static void Initialize(IServiceCollection serviceCollection, IConfigurationRoot configurationRoot)
+        public static void Initialize(IServiceCollection services, IConfigurationRoot configurationRoot)
         {
             config = configurationRoot;
 
-            RegisterDbContext(serviceCollection);
-            RegisterServices(serviceCollection);
-            RegisterRepositories(serviceCollection);
+            RegisterDbContext(services);
+            RegisterServices(services);
+            RegisterRepositories(services);
+            RegisterClaimsProvider(services);
+            RegisterAuditProvider(services);
         }
 
-        private static void RegisterDbContext(IServiceCollection serviceCollection)
+        private static void RegisterDbContext(IServiceCollection services)
         {
-            serviceCollection.AddScoped<IDiscountifyContext, DiscountifyContext>();
+            services.AddScoped<IDiscountifyContext, DiscountifyContext>();
 
-            serviceCollection.AddDbContext<DiscountifyContext>(options => options.UseSqlServer(config.GetConnectionString(DISCOUNTIFY_CONNECTION_NAME)));
+            services.AddDbContext<DiscountifyContext>(options => options.UseSqlServer(config.GetConnectionString(DISCOUNTIFY_CONNECTION_NAME),
+                opt => opt.EnableRetryOnFailure()));
         }
 
-        private static void RegisterServices(IServiceCollection serviceCollection)
+        private static void RegisterServices(IServiceCollection services)
         {
-            serviceCollection.AddScoped<ICardService, CardService>();
+            services.AddScoped<ICardService, CardService>();
         }
 
-        private static void RegisterRepositories(IServiceCollection serviceCollection)
+        private static void RegisterRepositories(IServiceCollection services)
         {
-            serviceCollection.AddScoped<ICardRepository, CardRepository>();
+            services.AddScoped<ICardRepository, CardRepository>();
+        }
+
+        private static void RegisterClaimsProvider(IServiceCollection services)
+        {
+            services.AddScoped<IClaimsPrincipleProvider, ClaimsPrincipleProvider>();
+        }
+
+        private static void RegisterAuditProvider(IServiceCollection services)
+        {
+            services.AddScoped<IAuditProvider, AspNetAuditProvider>();
         }
     }
 }

@@ -1,7 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace Discountify.Data
+﻿namespace Discountify.Data
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IRepository<TEntity>
     {
         TEntity Get(object id);
@@ -17,5 +18,9 @@ namespace Discountify.Data
         void Delete(TEntity entity);
 
         void DeleteRange(IEnumerable<TEntity> entities);
+
+        int Save();
+
+        Task<int> SaveAsync();
     }
 }
