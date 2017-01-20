@@ -114,7 +114,7 @@
         {
             get
             {
-                return this.DbSet.AsNoTracking().Where(x => !x.IsDeleted);
+                return this.Collection.AsNoTracking();
             }
         }
 

@@ -3,19 +3,25 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
+
+    public class AppUser
+    {
+        public string Username { get; set; }
+
+        public string Password { get; set; }
+    }
 
     [Route("api/[controller]")]
     public class AuthController : Controller
     {
         private readonly SignInManager<User> signInManager;
+        private readonly UserManager<User> userManager;
 
-        public AuthController(SignInManager<User> signInManager)
+        public AuthController(SignInManager<User> signInManager, UserManager<User> userManager)
         {
             this.signInManager = signInManager;
+            this.userManager = userManager;
         }
 
         public IActionResult Login(User model)
@@ -40,6 +46,23 @@
             }
 
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("register")]
+        public async Task<IActionResult> Register(AppUser model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new User { UserName = model.Username };
+                var result = await this.userManager.CreateAsync(user, model.Password);
+                if (result.Succeeded)
+                {
+                    return Ok("Registrated");
+                }
+            }
+
+            return BadRequest();
         }
     }
 }

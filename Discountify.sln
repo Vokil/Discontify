@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Discountify.Data.Tests", "s
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discountify.Core", "src\Discountify.Core\Discountify.Core.xproj", "{44C7259D-4A61-4B8E-BD3A-CF4A519E83F1}"
 EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Discountify.Identity", "src\Discountify.Identity\Discountify.Identity.xproj", "{29761F50-4AC5-45C1-822D-CDB54FC83AEC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -84,6 +86,10 @@ Global
 		{44C7259D-4A61-4B8E-BD3A-CF4A519E83F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{44C7259D-4A61-4B8E-BD3A-CF4A519E83F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{44C7259D-4A61-4B8E-BD3A-CF4A519E83F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29761F50-4AC5-45C1-822D-CDB54FC83AEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29761F50-4AC5-45C1-822D-CDB54FC83AEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29761F50-4AC5-45C1-822D-CDB54FC83AEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29761F50-4AC5-45C1-822D-CDB54FC83AEC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,5 +109,6 @@ Global
 		{22723F88-9116-4644-93FE-45F683DF5E4F} = {7B4CE91E-E0A1-43E9-A362-320C177544C7}
 		{A3A6CFEA-4676-4AF1-84E7-AEF3549D9EC8} = {F7BE94DF-D5CD-4E6B-BBB6-E025C2685F72}
 		{44C7259D-4A61-4B8E-BD3A-CF4A519E83F1} = {B726565E-25EA-4D03-A6AC-A9DB9A7624B4}
+		{29761F50-4AC5-45C1-822D-CDB54FC83AEC} = {7B4CE91E-E0A1-43E9-A362-320C177544C7}
 	EndGlobalSection
 EndGlobal

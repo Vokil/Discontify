@@ -1,7 +1,9 @@
 ﻿namespace Discountify.Api.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Services.Contracts;
+    using System.Linq;
 
     [Route("api/[controller]")]
     public class HomeController : Controller
@@ -15,7 +17,18 @@
 
         public IActionResult Index()
         {
-            return Ok(this.cardService.List());
+            var claims = User.Claims.Select(claim => new { claim.Type, claim.Value });
+
+            return Ok(claims);
+        }
+        
+        [Authorize]
+        [Route("test")]
+        public IActionResult Test()
+        {
+            var claims = User.Claims.Select(claim => new { claim.Type, claim.Value });
+
+            return Ok(claims);
         }
     }
 }

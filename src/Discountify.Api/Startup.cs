@@ -5,12 +5,16 @@
     using Microsoft.AspNetCore.Authentication.Cookies;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Models;
+    using Settings;
+    using System.Net;
     using System.Threading.Tasks;
 
     public class Startup
@@ -42,38 +46,18 @@
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddApplicationInsightsTelemetry(this.Configuration);
 
-            services.AddMvc(config => 
-            {
-                if (this.environment.IsProduction())
-                {
-                    config.Filters.Add(new RequireHttpsAttribute());
-                }
-            });
+            services.Configure<IdentityServerSettings>(this.Configuration.GetSection("IdentityServer"));
 
-            services.AddIdentity<User, IdentityRole>(config => 
-            {
-                config.User.RequireUniqueEmail = true;
-                config.Password.RequiredLength = 6;
-                config.Cookies.ApplicationCookie.LoginPath = "/Auth/Login";
-                config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents
-                {
-                    OnRedirectToLogin = async ctx => 
-                    {
-                        ctx.Response.StatusCode = 401;
-
-                        await Task.Yield();
-                    }
-                };
-            })
-            .AddEntityFrameworkStores<DiscountifyContext>();
+            this.ConfigureMvc(services);
+            this.ConfigureIdentity(services);
 
             DependencyInjectionConfig.Initialize(services, this.Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, IOptions<IdentityServerSettings> identityServerOptions)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -88,8 +72,64 @@
 
             app.UseIdentity();
 
-            app.UseStatusCodePages();
+            this.UseIdentityServer(app, identityServerOptions);
+
             app.UseMvcWithDefaultRoute();
+        }
+
+
+        private void ConfigureMvc(IServiceCollection services)
+        {
+            services.AddMvc(config =>
+            {
+                if (this.environment.IsProduction())
+                {
+                    config.Filters.Add(new RequireHttpsAttribute());
+                }
+            });
+        }
+
+        private void ConfigureIdentity(IServiceCollection services)
+        {
+            services.AddIdentity<User, IdentityRole>(config =>
+            {
+                config.Password = new PasswordOptions
+                {
+                    RequireDigit = false,
+                    RequiredLength = 4,
+                    RequireLowercase = false,
+                    RequireNonAlphanumeric = false,
+                    RequireUppercase = false
+                };
+
+                config.User = new UserOptions
+                {
+                    RequireUniqueEmail = false,
+                };
+
+                config.Cookies.ApplicationCookie.Events = new CookieAuthenticationEvents
+                {
+                    OnRedirectToLogin = async ctx =>
+                    {
+                        ctx.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+
+                        await Task.Yield();
+                    }
+                };
+            })
+            .AddEntityFrameworkStores<DiscountifyContext>();
+        }
+
+        private void UseIdentityServer(IApplicationBuilder app, IOptions<IdentityServerSettings> identityServerOptions)
+        {
+            var identityServerAuthOptions = new IdentityServerAuthenticationOptions
+            {
+                Authority = identityServerOptions.Value.Authority,
+                RequireHttpsMetadata = identityServerOptions.Value.RequireHttpsMetadata,
+                ApiName = identityServerOptions.Value.ApiName
+            };
+
+            app.UseIdentityServerAuthentication(identityServerAuthOptions);
         }
     }
 }
