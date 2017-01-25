@@ -1,19 +1,29 @@
 {
   "compilerOptions": {
-    "noImplicitAny": false,
-    "noEmitOnError": true,
-    "removeComments": false,
-    "sourceMap": true,
-    "target": "es6",
-    "module": "system",
+    "target": "es5",
+    "module": "es2015",
     "moduleResolution": "node",
-    "experimentalDecorators": true
+    "sourceMap": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "removeComments": true,
+    "noImplicitAny": true,
+    "skipLibCheck": true,
+    "lib": [
+      "es2015",
+      "dom"
+    ],
+    "types": [
+      "node"
+    ]
   },
-  "include": [
-    "wwwroot/app"
+  "files": [
+    "Client/app/app.module.ts",
+    "Client/main.ts"
   ],
-  "exclude": [
-    "node_modules"
-  ],
-  "compileOnSave": true
+  "awesomeTypescriptLoaderOptions": {
+    "useWebpackText": true
+  },
+  "compileOnSave": false,
+  "buildOnSave": false
 }
