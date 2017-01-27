@@ -13,8 +13,8 @@ var AppComponent = (function () {
 }());
 AppComponent = __decorate([
     Component({
-        selector: 'discountify',
-        template: "<h1>Hello {{name}} </h1>"
+        selector: 'discountify-app',
+        templateUrl: './app.component.html'
     })
 ], AppComponent);
 export { AppComponent };
