@@ -1,5 +1,6 @@
 ﻿import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -9,7 +10,8 @@ import { DashboardModule } from './dashboard/dashboard.module';
     imports: [
         BrowserModule,
         AppRoutingModule,
-        DashboardModule
+        DashboardModule,
+        NgbModule.forRoot()
     ],
     declarations: [AppComponent],
     bootstrap: [AppComponent]

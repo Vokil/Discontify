@@ -19,8 +19,7 @@
   },
   "files": [
     "Client/app/app.module.ts",
-    "Client/main.ts",
-    "Client/app-routing.module.ts"
+    "Client/main.ts"
   ],
   "awesomeTypescriptLoaderOptions": {
     "useWebpackText": true

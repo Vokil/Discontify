@@ -14,7 +14,8 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     Component({
         selector: 'discountify-app',
-        templateUrl: './app.component.html'
+        templateUrl: './app.component.html',
+        styleUrls: [String('./app.component.scss')]
     })
 ], AppComponent);
 export { AppComponent };
