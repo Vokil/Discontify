@@ -28,6 +28,7 @@
     "@angular/router": "~3.4.1",
     "@angular/upgrade": "~2.4.3",
     "@ng-bootstrap/ng-bootstrap": "^1.0.0-alpha.19",
+    "ng2-toastr": "^1.4.1",
     "angular-in-memory-web-api": "0.2.4",
     "bootstrap": "^3.3.7",
     "sb-admin-2": "^3.3.8",

@@ -9,6 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { RegisterModule } from './register/register.module';
 import { CoreModule } from './core/core.module';
+import { ToastModule } from 'ng2-toastr/ng2-toastr';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { CoreModule } from './core/core.module';
         DashboardModule,
         RegisterModule,
         CoreModule,
-        NgbModule.forRoot()
+        NgbModule.forRoot(),
+        ToastModule.forRoot()
     ],
     declarations: [AppComponent],
     bootstrap: [AppComponent]

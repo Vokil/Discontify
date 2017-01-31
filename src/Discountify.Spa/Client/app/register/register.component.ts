@@ -1,10 +1,11 @@
-﻿import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs/Subscription';
 
 import { RegisterService } from './register.service';
 import { User } from '../models/user.model';
+import { ToastsManager } from 'ng2-toastr/ng2-toastr';
 
 @Component({
     moduleId: String(module.id),
@@ -16,7 +17,11 @@ export class RegisterComponent implements OnInit {
 
     constructor(
         private formBuilder: FormBuilder,
-        private registerService: RegisterService) { }
+        private registerService: RegisterService,
+        public toastr: ToastsManager,
+        vcr: ViewContainerRef) {
+        this.toastr.setRootViewContainerRef(vcr);
+    }
 
     ngOnInit() {
         this.user = this.formBuilder.group({
@@ -34,8 +39,14 @@ export class RegisterComponent implements OnInit {
     onSubmit({ value, valid }: { value: User, valid: boolean }) {
         if (valid) {
             this.registerService.register(value)
-                .subscribe((user) => { console.log(user); },
-                    (error) => { console.log(error); });
+                .subscribe((result) => {
+                    this.toastr.success("You're successfully registred!", "Success");
+                }, (errorContainer) => {
+                    var errors = JSON.parse(errorContainer._body);
+                    for (let errorEntry of errors) {
+                        this.toastr.success(errorEntry.description, "Error");
+                    }
+                });
         }
     }
 }

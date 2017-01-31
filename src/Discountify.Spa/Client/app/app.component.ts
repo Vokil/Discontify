@@ -5,6 +5,4 @@
     templateUrl: './app.component.html',
     styleUrls: [String('./app.component.scss')]
 })
-export class AppComponent {
-    name = 'Angular';
-}
+export class AppComponent { }

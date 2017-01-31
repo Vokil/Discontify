@@ -78,9 +78,11 @@
                 {
                     return Ok("Registrated");
                 }
+
+                return BadRequest(result.Errors);
             }
 
-            return BadRequest();
+            return BadRequest("Registration values are wrong!");
         }
     }
 }
