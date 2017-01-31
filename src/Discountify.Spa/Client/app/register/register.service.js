@@ -9,15 +9,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 import { Injectable } from '@angular/core';
 import { Http } from '@angular/http';
+import { ApiUrls } from '../core';
 var RegisterService = (function () {
     function RegisterService(http) {
         this.http = http;
     }
     RegisterService.prototype.register = function (user) {
         var body = JSON.stringify(user);
-        var userUrl = 'http://localhost:58059/api/auth/register';
+        var registerUrl = ApiUrls.registerUrl;
         return this.http
-            .post(userUrl, body)
+            .post(registerUrl, body)
             .map(function (res) { return res.json().data; });
     };
     return RegisterService;

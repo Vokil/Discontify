@@ -4,17 +4,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
-import { NgModule } from '@angular/core';
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
+import { NgModule, Optional, SkipSelf } from '@angular/core';
 import { requestOptionsProvider } from './default-request-options.service';
+import { throwIfAlreadyLoaded } from './module-import-guard';
 var CoreModule = (function () {
-    function CoreModule() {
+    function CoreModule(parentModule) {
+        throwIfAlreadyLoaded(parentModule, 'CoreModule');
     }
     return CoreModule;
 }());
 CoreModule = __decorate([
     NgModule({
         providers: [requestOptionsProvider]
-    })
+    }),
+    __param(0, Optional()),
+    __param(0, SkipSelf()),
+    __metadata("design:paramtypes", [CoreModule])
 ], CoreModule);
 export { CoreModule };
 //# sourceMappingURL=core.module.js.map
