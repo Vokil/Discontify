@@ -16,6 +16,9 @@
     using Settings;
     using System.Net;
     using System.Threading.Tasks;
+    using System.Linq;
+    using Microsoft.AspNetCore.Mvc.Cors.Internal;
+    using Newtonsoft.Json;
 
     public class Startup
     {
@@ -49,7 +52,9 @@
             services.AddApplicationInsightsTelemetry(this.Configuration);
 
             services.Configure<IdentityServerSettings>(this.Configuration.GetSection("IdentityServer"));
+            services.Configure<CorsOriginSettings>(this.Configuration.GetSection("AllowedCorsOrigins"));
 
+            this.ConfigureCors(services);
             this.ConfigureMvc(services);
             this.ConfigureIdentity(services);
 
@@ -70,6 +75,8 @@
             app.UseApplicationInsightsRequestTelemetry();
             app.UseApplicationInsightsExceptionTelemetry();
 
+            app.UseCors("AllowCors");
+
             app.UseIdentity();
 
             this.UseIdentityServer(app, identityServerOptions);
@@ -77,6 +84,25 @@
             app.UseMvcWithDefaultRoute();
         }
 
+
+        private void ConfigureCors(IServiceCollection services)
+        {
+            var allowedCorsOrigins = services
+                .BuildServiceProvider()
+                .GetService<IOptions<CorsOriginSettings>>();
+
+            services.AddCors(options => options
+                .AddPolicy("AllowCors",
+                    policy => policy
+                        .AllowAnyHeader()
+                        .AllowAnyMethod()
+                        .WithOrigins(allowedCorsOrigins?.Value.Collection.ToArray())));
+
+            services.Configure<MvcOptions>(options =>
+            {
+                options.Filters.Add(new CorsAuthorizationFilterFactory("AllowCors"));
+            });
+        }
 
         private void ConfigureMvc(IServiceCollection services)
         {
@@ -86,6 +112,9 @@
                 {
                     config.Filters.Add(new RequireHttpsAttribute());
                 }
+            }).AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
         }
 

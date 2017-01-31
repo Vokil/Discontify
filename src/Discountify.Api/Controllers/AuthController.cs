@@ -10,6 +10,16 @@
         public string Username { get; set; }
 
         public string Password { get; set; }
+
+        public string Email { get; set; }
+
+        public string FirstName { get; set; }
+
+        public string LastName { get; set; }
+
+        public int Age { get; set; }
+
+        public bool IsMale { get; set; }
     }
 
     [Route("api/[controller]")]
@@ -50,11 +60,19 @@
 
         [HttpPost]
         [Route("register")]
-        public async Task<IActionResult> Register(AppUser model)
+        public async Task<IActionResult> Register([FromBody]AppUser model)
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Username };
+                var user = new User
+                {
+                    UserName = model.Username,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    Age = model.Age,
+                    Email = model.Email,
+                    IsMale = model.IsMale
+                };
                 var result = await this.userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

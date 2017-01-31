@@ -7,9 +7,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { RegisterComponent } from './register/register.component';
 var routes = [
     { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-    { path: 'dashboard', component: DashboardComponent }
+    { path: 'dashboard', component: DashboardComponent },
+    { path: 'register', component: RegisterComponent }
 ];
 var AppRoutingModule = (function () {
     function AppRoutingModule() {
